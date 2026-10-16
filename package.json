@@ -1,6 +1,6 @@
 {
   "name": "filex-editor",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Bangla-first terminal text editor with atomic saves and grapheme-correct editing",
   "keywords": [
     "editor",

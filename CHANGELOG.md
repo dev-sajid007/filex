@@ -5,6 +5,10 @@
 
 ## [Unreleased]
 
+## [0.1.2] — 2026-10-16
+
+Code অপরিবর্তিত; npm-এর README ও project metadata হালনাগাদ।
+
 ### যোগ হয়েছে
 
 - GitHub Actions CI (M7): প্রতিটি push ও PR-এ typecheck, test, build ও package
