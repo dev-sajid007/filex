@@ -5,6 +5,13 @@
 
 ## [Unreleased]
 
+### যোগ হয়েছে
+
+- GitHub Actions CI (M7): প্রতিটি push ও PR-এ typecheck, test, build ও package
+  contents যাচাই; packed tarball global install করে CLI smoke test (Bangla
+  `create`/`append`/`insert`/`read`, terminal ছাড়া exit `6`)। macOS job
+  পরীক্ষামূলক — ব্যর্থ হলেও CI আটকায় না।
+
 ## [0.1.1] — 2026-10-16
 
 `0.1.0`-এর সঙ্গে code একই। `0.1.0` npm-এর review-তে কিছুক্ষণ আটকে থাকায় version বাড়িয়ে আবার প্রকাশ করা হয়েছিল।

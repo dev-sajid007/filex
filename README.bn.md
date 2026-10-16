@@ -6,6 +6,9 @@
 
 [Read in English](README.md) · [Documentation](#documentation) · [অবদান](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
 
+[![CI](https://github.com/dev-sajid007/filex/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-sajid007/filex/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/filex-editor?logo=npm)](https://www.npmjs.com/package/filex-editor)
+
 </div>
 
 ---
@@ -153,8 +156,8 @@ ending ও শেষের newline অক্ষত রাখে। বিস্�
 | M3 | File operations ও safe save | ✅ |
 | M4 | Search/replace, undo/redo, selection | ✅ |
 | M5 | Command-line interface | ✅ |
-| M6 | Unicode ও quality | পরিকল্পিত |
-| M7 | Release (CI, npm) | চলছে — package প্রস্তুত, CI বাকি |
+| M6 | Unicode ও quality | পরবর্তী |
+| M7 | Release (CI, npm) | ✅ |
 
 ## পরিচিত সীমাবদ্ধতা
 

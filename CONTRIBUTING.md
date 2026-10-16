@@ -28,6 +28,8 @@ bun link             # ঐচ্ছিক: `filex` command PATH-এ
    ```
 
 5. UI পরিবর্তন হলে প্রকৃত terminal-এ চালিয়ে দেখুন, এবং PR-এ screenshot দিন।
+6. PR খুললে CI নিজে থেকে একই check ও একটি install test চালায়; সবুজ হওয়া পর্যন্ত
+   অপেক্ষা করুন।
 
 ## নিয়ম
 

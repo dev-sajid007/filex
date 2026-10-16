@@ -1,0 +1,91 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Typecheck, test, build (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    # Linux is the supported platform; macOS is untested, so it reports without blocking.
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            experimental: false
+          - os: macos-latest
+            experimental: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Test
+        run: bun test
+
+      - name: Build
+        run: bun run build
+
+      - name: Check package contents
+        run: npm pack --dry-run
+
+  install:
+    name: Install the packed tarball
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+
+      - name: Build tarball
+        run: |
+          bun install --frozen-lockfile
+          bun run build
+          mkdir -p "$RUNNER_TEMP/pkg"
+          npm pack --pack-destination "$RUNNER_TEMP/pkg"
+
+      - name: Install globally with npm
+        run: npm install -g "$RUNNER_TEMP"/pkg/filex-editor-*.tgz
+
+      - name: Smoke test the installed CLI
+        working-directory: ${{ runner.temp }}
+        env:
+          FILEX_LANG: en
+        run: |
+          set -euo pipefail
+          expected="filex $(node -p "require('$GITHUB_WORKSPACE/package.json').version")"
+          test "$(filex --version)" = "$expected"
+          filex --help | grep -q "Usage:"
+
+          filex create smoke.txt
+          filex append smoke.txt "প্রথম লাইন"
+          filex insert smoke.txt 1 "শিরোনাম"
+          test "$(filex read smoke.txt)" = "$(printf 'শিরোনাম\nপ্রথম লাইন')"
+
+          # The editor must refuse to start without a terminal (exit 6).
+          status=0
+          filex smoke.txt < /dev/null > /dev/null 2>&1 || status=$?
+          test "$status" -eq 6

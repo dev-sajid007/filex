@@ -855,11 +855,11 @@ Semantic Versioning অনুসরণ করার প্রস্তাব:
 ### M7 --- Release
 
 -   [x] README ও license
--   [ ] CI checks
+-   [x] CI checks
 -   [x] Package dry run
 -   [x] npm name/metadata validation
--   [ ] npm publish
--   [ ] Installation test
+-   [x] npm publish
+-   [x] Installation test
 
 ------------------------------------------------------------------------
 

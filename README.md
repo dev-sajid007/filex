@@ -6,6 +6,7 @@
 
 [বাংলায় পড়ুন](README.bn.md) · [Documentation](#documentation) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md)
 
+[![CI](https://github.com/dev-sajid007/filex/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-sajid007/filex/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/filex-editor?logo=npm)](https://www.npmjs.com/package/filex-editor)
 ![status](https://img.shields.io/badge/status-alpha-orange)
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -179,8 +180,8 @@ The detailed documents are written in Bangla.
 | M3 | File operations and safe save | ✅ |
 | M4 | Search/replace, undo/redo, selection | ✅ |
 | M5 | Command-line interface | ✅ |
-| M6 | Unicode and quality hardening | Planned |
-| M7 | Release (CI, npm) | In progress — package ready, CI pending |
+| M6 | Unicode and quality hardening | Next |
+| M7 | Release (CI, npm) | ✅ |
 
 ## Known limitations
 

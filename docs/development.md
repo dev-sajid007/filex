@@ -85,6 +85,19 @@ npm pack --dry-run   # কী প্রকাশ হবে দেখুন: dist
   Node build-এর জন্য Node ≥ 26.4 লাগে এবং FileX `Bun.stringWidth` ব্যবহার করে, তাই
   Node সমর্থন পরে।
 
+### CI
+
+`.github/workflows/ci.yml` প্রতিটি push (`main`) ও pull request-এ চলে:
+
+| Job | কী করে |
+| --- | --- |
+| `check` (Ubuntu) | `bun install --frozen-lockfile` → typecheck → test → build → `npm pack --dry-run` |
+| `check` (macOS) | একই; পরীক্ষামূলক (`continue-on-error`) কারণ macOS আনুষ্ঠানিকভাবে পরীক্ষিত নয় |
+| `install` | Packed tarball `npm install -g` করে আসল `filex` চালায়: version, help, বাংলা লেখা দিয়ে `create`/`append`/`insert`/`read`, এবং terminal ছাড়া exit `6` |
+
+CI-তে Bun-এর version `1.4.2`-এ pin করা। `bun.lock` না মিললে install ব্যর্থ হয় —
+dependency বদলালে lockfile-ও commit করুন।
+
 ### Publish
 
 ```bash
