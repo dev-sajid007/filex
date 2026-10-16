@@ -5,10 +5,13 @@
 
 ## [Unreleased]
 
-## [0.1.1]
+## [0.1.1] — 2026-10-16
+
+`0.1.0`-এর সঙ্গে code একই। `0.1.0` npm-এর review-তে কিছুক্ষণ আটকে থাকায় version বাড়িয়ে আবার প্রকাশ করা হয়েছিল।
+
+## [0.1.0] — 2026-10-16
 
 প্রথম public release — npm package `filex-editor`, command `filex`, MIT license।
-`0.1.0` npm-এর staged publishing-এ আটকে ছিল এবং প্রকাশিত হয়নি; `0.1.1`-এ একই content।
 
 ### যোগ হয়েছে
 
