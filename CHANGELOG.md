@@ -5,9 +5,15 @@
 
 ## [Unreleased]
 
+## [0.1.1]
+
+প্রথম public release — npm package `filex-editor`, command `filex`, MIT license।
+`0.1.0` npm-এর staged publishing-এ আটকে ছিল এবং প্রকাশিত হয়নি; `0.1.1`-এ একই content।
+
 ### যোগ হয়েছে
 
 - OpenTUI React template থেকে Bun + TypeScript project (M0)।
+- npm package: bundle করা `dist/filex.js`, শুধু build output ও docs প্রকাশিত হয়।
 - TUI shell: header, editor viewport placeholder, status bar (M1)।
 - বাংলা (default) ও ইংরেজি UI; `--lang bn|en` option।
 - Keyboard shortcut routing; `Ctrl+Q` দিয়ে বন্ধ, `Esc` দিয়ে বার্তা মুছুন।
@@ -33,6 +39,9 @@
   Shift দিয়ে selection, `Ctrl+A`; `Ctrl+C`/`Ctrl+X`/`Ctrl+V` (OSC 52)।
 - Incremental search (`Ctrl+F`), interactive ও replace-all (`Ctrl+R`), লাইনে
   যাওয়া (`Ctrl+G`, বাংলা অঙ্কসহ), `F1` shortcut তালিকা।
+- CLI (M5): `read`, `create [--force]`, `append`, `insert`, `replace
+  [--dry-run]`, `edit`; `--help`/`-h`, `--version`/`-v`; `FILEX_LANG`।
+- সব exit code (`0`–`6`) কার্যকর; terminal ছাড়া editor চালালে exit `6`।
 
 ### Specification থেকে পরিবর্তন
 
@@ -48,4 +57,4 @@
 - Tab character দেখানো সমর্থিত নয়; paste-এ tab space-এ রূপান্তরিত হয়।
 - Mixed line ending-এর ফাইল save-এ এক ধরনে রূপান্তরিত হয়।
 - Backup বন্ধ করার config এখনও নেই।
-- Package npm-এ প্রকাশিত হয়নি; `filex` নামটি npm-এ ইতিমধ্যে নেওয়া।
+- `filex diff` এখনও নেই।

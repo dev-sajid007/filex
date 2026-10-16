@@ -15,6 +15,43 @@ export const bn = {
   unknownOption: "অজানা option",
   tooManyPaths: "একটির বেশি path দেওয়া হয়েছে",
   usage: "ব্যবহার: filex [--lang bn|en] [path]",
+  missingArgs: "argument অনুপস্থিত",
+  tooManyArgs: "অতিরিক্ত argument",
+  emptySearch: "খোঁজার লেখা খালি হতে পারে না",
+  lineRange: "লাইন নম্বর 1 থেকে {max}-এর মধ্যে হতে হবে",
+  fileExists: "ফাইলটি আগে থেকেই আছে (overwrite করতে --force দিন)",
+  fileNotFound: "ফাইল পাওয়া যায়নি",
+  createHint: "সমাধান: path যাচাই করুন অথবা `filex create {path}` ব্যবহার করুন।",
+  created: "তৈরি হয়েছে: {path}",
+  appended: "যোগ হয়েছে: {path}",
+  inserted: "লাইন {line}-এ যোগ হয়েছে: {path}",
+  replacedIn: "{n}টি প্রতিস্থাপিত: {path}",
+  dryRun: "{n}টি মিল; কিছু লেখা হয়নি (--dry-run)",
+  matchLines: "লাইন: {lines}",
+  noTty: "Interactive editor-এর জন্য terminal দরকার।",
+  noTtyHint: "ফাইল দেখতে: filex read <path> · সাহায্য: filex --help",
+  cliHelp: `FileX — বাংলা-প্রথম terminal file editor
+
+ব্যবহার:
+  filex [option] [path]              Editor খুলুন (path না থাকলে নতুন ফাইল)
+  filex edit <path>                  একই কাজ
+  filex read <path>                  Content stdout-এ লিখুন
+  filex create <path> [--force]      খালি ফাইল তৈরি করুন
+  filex append <path> <text>         শেষে নতুন লাইন যোগ করুন
+  filex insert <path> <line> <text>  লাইন নম্বরে (1 থেকে) নতুন লাইন বসান
+  filex replace <path> <old> <new> [--dry-run]
+                                     সব মিল প্রতিস্থাপন করুন
+
+Option:
+  --lang bn|en     UI-র ভাষা (অথবা FILEX_LANG environment variable)
+  -h, --help       এই সাহায্য
+  -v, --version    Version
+  --               এরপরের সবকিছু path/text হিসেবে ধরুন
+
+Editor-এর ভেতরে F1 চাপলে সব shortcut দেখা যাবে।
+
+Exit code: 0 সফল · 1 কোনো মিল নেই · 2 ভুল argument · 3 ফাইল/path error
+           4 অনুমতি নেই · 5 লেখা ব্যর্থ · 6 terminal নেই`,
 
   saving: "সংরক্ষণ হচ্ছে…",
   saved: "সংরক্ষিত",

@@ -1,7 +1,19 @@
 # অবদান রাখা
 
-FileX-এ অবদান রাখতে চাওয়ার জন্য ধন্যবাদ। Local setup:
-[docs/development.md](docs/development.md)।
+FileX-এ অবদান রাখতে চাওয়ার জন্য ধন্যবাদ! সবার কাছে [Code of Conduct](CODE_OF_CONDUCT.md)
+মেনে চলার অনুরোধ। বাংলা বা ইংরেজি — যেকোনো ভাষায় issue ও PR লিখতে পারেন।
+
+## Setup
+
+```bash
+git clone https://github.com/dev-sajid007/filex.git
+cd filex
+bun install
+bun run start        # editor চালান
+bun link             # ঐচ্ছিক: `filex` command PATH-এ
+```
+
+বিস্তারিত: [docs/development.md](docs/development.md)।
 
 ## Workflow
 
@@ -51,5 +63,5 @@ splitting them into individual code points.
 - প্রত্যাশিত ও প্রকৃত আচরণ
 - বাংলা rendering-এর সমস্যা হলে screenshot
 
-Security সমস্যা public issue-তে নয় — [docs/security.md](docs/security.md)
-দেখুন।
+Security সমস্যা public issue-তে নয় — [SECURITY.md](SECURITY.md) অনুযায়ী ব্যক্তিগতভাবে
+জানান।

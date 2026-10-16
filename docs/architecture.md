@@ -12,7 +12,7 @@
 
 | Layer | দায়িত্ব | অবস্থা |
 | --- | --- | --- |
-| CLI | Argument parse, locale নির্বাচন, exit code | আংশিক — শুধু `--lang` |
+| CLI | Argument parse, locale নির্বাচন, subcommand, exit code | ✅ |
 | TUI | OpenTUI rendering, keyboard input, dialog ও status | Shell ✅ |
 | Editor core | Buffer, cursor, selection, undo/redo, dirty state, search/replace | ✅ |
 | File engine | Path validation, read/write, atomic save, backup | ✅ |
@@ -22,8 +22,14 @@
 
 ```text
 src/
-├── index.tsx              # Entry: args parse → renderer তৈরি → <App/>
-├── cli.ts                 # parseArgs(): --lang
+├── index.tsx              # Entry: args → subcommand চালান, অথবা TTY যাচাই করে <App/>
+├── cli.ts                 # parseArgs(): option, subcommand ও argument যাচাই
+├── commands/
+│   ├── index.ts           # runCommand(): help/version/read/create/append/insert/replace
+│   ├── context.ts         # Load/save helper, stdout/stderr, error → exit code
+│   ├── exit-codes.ts      # Exit code table ও FileError mapping
+│   ├── lines.ts           # Final-newline-সচেতন line insert/append, replace
+│   └── read.ts, create.ts, append.ts, insert.ts, replace.ts
 ├── app.tsx                # Shell: state store, key routing, open/save/quit flow
 ├── components/
 │   ├── Header.tsx         # File path, নতুন/শুধু-পঠনযোগ্য tag, modified marker
@@ -88,6 +94,15 @@ Ctrl+Q / Ctrl+O ─► dirty? ─ হ্যাঁ ─► "সংরক্ষণ 
 
 `App` file engine-কে prop হিসেবে নেয় (`createFileEngine({ backupDir })`), তাই
 test-এ backup বন্ধ রাখা বা অন্য folder দেওয়া যায়।
+
+### Subcommands
+
+`parseArgs()` একটি `Command` union ফেরত দেয়; `edit` ছাড়া সবগুলো
+`runCommand()` চালায়, যা `CommandContext` (`engine`, `messages`, `stdout`,
+`stderr`) নেয় এবং exit code ফেরত দেয় — তাই process না চালিয়েই test করা যায়।
+লেখার command-গুলো editor-এর একই `FileEngine.save()` ব্যবহার করে, তাই safe
+save, backup ও conflict check একই থাকে। `tests/cli-process.test.ts` আসল entry
+point subprocess হিসেবে চালিয়ে exit code ও non-TTY আচরণ যাচাই করে।
 
 ### Localization
 

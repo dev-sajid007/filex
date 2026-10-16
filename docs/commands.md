@@ -20,8 +20,10 @@ Source থেকে চালালে `filex`-এর জায়গায় `
 | `--lang en` | English UI | ✅ |
 | `--lang=<code>` | উপরের সমতুল্য রূপ | ✅ |
 | `--` | এরপরের সবকিছু path (যেমন `-`-দিয়ে শুরু নামের ফাইল) | ✅ |
-| `--help` | Command ও shortcut তালিকা; TUI চালু করে না | পরিকল্পিত (M5) |
-| `--version` | `package.json` থেকে version; TUI চালু করে না | পরিকল্পিত (M5) |
+| `-h`, `--help` | Command, option ও exit code তালিকা; terminal ছাড়াও চলে | ✅ |
+| `-v`, `--version` | `package.json` থেকে version | ✅ |
+
+`--help`/`--version` অন্য সব argument-এর উপরে প্রাধান্য পায়।
 
 অজানা ভাষা দিলে বাংলায় error দেখায় এবং exit code `2` দেয়:
 
@@ -35,7 +37,7 @@ $ filex --lang fr
 
 1. CLI option `--lang` ✅
 2. FileX config (পরিকল্পিত)
-3. Environment variable (বিবেচনাধীন)
+3. Environment variable `FILEX_LANG` ✅ (অজানা মান উপেক্ষিত)
 4. Default `bn` ✅
 
 অজানা option বা একাধিক path দিলে error, usage এবং exit code `2`।
@@ -49,6 +51,7 @@ $ filex --lang fr
 | নেই, কিন্তু parent directory আছে | নতুন ফাইল হিসেবে খোলে; প্রথম save-এ তৈরি হয় |
 | Parent directory নেই | Error, exit `3` |
 | Directory, device বা অন্য non-regular file | Error, exit `3` (file picker পরিকল্পিত) |
+| stdin/stdout terminal নয় (pipe, cron, CI) | Error ও `filex read`-এর পরামর্শ, exit `6` |
 | Binary (প্রথম 8 KB-তে NUL byte) | Error, exit `3` |
 | বৈধ UTF-8 নয় | Error, exit `3` |
 | 16 MB-এর বড় | Error, exit `3` |
@@ -58,20 +61,41 @@ $ filex --lang fr
 `~/...` path home directory-তে expand হয়। Spec-এ বলা ছিল না-থাকা ফাইলে
 "ফাইল পাওয়া যায়নি" error; তার বদলে nano/vim-এর মতো নতুন ফাইল খোলা হয়।
 
-## Subcommands
+## Subcommands ✅
 
-নিচের সব command পরিকল্পিত (M5); এখনও implement হয়নি।
+প্রথম argument কোনো subcommand-এর নাম হলে সেটি চলে; নইলে path হিসেবে editor
+খোলে। ঠিক এই নামের ফাইল খুলতে `filex -- read` বা `filex ./read` লিখুন।
 
-| Command | কাজ | নির্ধারিত behavior |
-| --- | --- | --- |
-| `filex .` | বর্তমান directory | File picker |
-| `filex create <path>` | নতুন file | File আগে থেকে থাকলে overwrite না করে error |
-| `filex read <path>` | File পড়ুন | Content stdout-এ লেখে |
-| `filex edit <path>` | Edit করুন | Interactive editor |
-| `filex replace <path> <old> <new>` | Text replace | Preview/dry-run option বিবেচনাধীন |
-| `filex insert <path> <line> <text>` | Line-এ insert | Line number 1-based |
-| `filex append <path> <text>` | শেষে যোগ | Newline behavior implement-এর সময় নির্দিষ্ট হবে |
-| `filex diff <path>` | পরিবর্তন দেখান | Saved snapshot/backup-এর সঙ্গে diff |
+| Command | কাজ |
+| --- | --- |
+| `filex edit <path>` | `filex <path>`-এর মতোই |
+| `filex read <path>` | Content হুবহু stdout-এ (line ending অপরিবর্তিত, BOM বাদে) |
+| `filex create <path> [--force]` | খালি ফাইল তৈরি; থাকলে error (exit `3`), `--force` দিলে খালি করে দেয় |
+| `filex append <path> <text>` | শেষে নতুন লাইন যোগ |
+| `filex insert <path> <line> <text>` | `line` নম্বরে নতুন লাইন বসায় (1 থেকে শুরু; শেষ লাইন + 1 মানে শেষে যোগ) |
+| `filex replace <path> <old> <new> [--dry-run]` | সব মিল প্রতিস্থাপন; সংখ্যা ও লাইন নম্বর দেখায় |
+| `filex diff <path>` | পরিকল্পিত — backup-এর সঙ্গে তুলনা (এখনও নেই) |
+
+### আচরণ
+
+- **লেখার নিরাপত্তা:** `create`, `append`, `insert`, `replace` editor-এর মতো
+  একই safe save ব্যবহার করে — temp file + atomic rename, backup, mode,
+  `CRLF` ও BOM অক্ষত ([security.md](security.md))।
+- **Output:** `read` শুধু content stdout-এ লেখে; বাকি সব বার্তা stderr-এ, তাই
+  pipe পরিষ্কার থাকে।
+- **না-থাকা ফাইল:** `read`, `append`, `insert`, `replace` error দেয় (exit `3`)
+  এবং `filex create` ব্যবহারের পরামর্শ দেয়; কিছু তৈরি করে না।
+- **Final newline:** `append`/`insert` ফাইলের শেষের newline-এর অবস্থা বজায়
+  রাখে — শেষে newline থাকলে থাকবে, না থাকলে যোগ হবে না। খালি ফাইলে যোগ
+  করলে শেষে newline থাকে।
+- **Line number:** `insert`-এ ASCII বা বাংলা অঙ্ক (`৩`); সীমার বাইরে হলে exit `2`।
+- **Multi-line text:** `append`/`insert`-এর text-এ newline থাকলে একাধিক লাইন
+  যোগ হয়। Shell-এ `$'প্রথম\nদ্বিতীয়'` লিখুন। `replace`-এর `old`-এও newline
+  চলে, এবং তা `CRLF` ফাইলেও মেলে।
+- **`replace`:** case-sensitive; মিল না পেলে কিছু লেখে না এবং exit `1` দেয়।
+  `--dry-run` শুধু সংখ্যা ও লাইন দেখায়। `old` খালি হতে পারে না; `new` খালি
+  হলে মিলগুলো মুছে যায়।
+- **`-` দিয়ে শুরু text:** `--`-এর পরে দিন: `filex append f.txt -- "-- comment"`।
 
 ### নীতি
 
@@ -83,12 +107,12 @@ $ filex --lang fr
 
 ## Exit codes
 
-| Code | অর্থ | অবস্থা |
-| --- | --- | --- |
-| `0` | সফল | ✅ |
-| `1` | সাধারণ error | পরিকল্পিত |
-| `2` | Invalid command/argument | ✅ |
-| `3` | File/path error | ✅ (খোলার সময়) |
-| `4` | Permission error | ✅ (খোলার সময়) |
-| `5` | Save/write error | পরিকল্পিত |
-| `6` | TTY/UI initialization error | পরিকল্পিত |
+| Code | অর্থ |
+| --- | --- |
+| `0` | সফল |
+| `1` | সাধারণ error; `replace`-এ কোনো মিল নেই |
+| `2` | ভুল command/argument (অজানা option, argument কম/বেশি, অবৈধ লাইন নম্বর) |
+| `3` | File/path error (নেই, directory, binary, UTF-8 নয়, খুব বড়, আগে থেকেই আছে) |
+| `4` | অনুমতি নেই (পড়া বা লেখা), শুধু-পঠনযোগ্য filesystem |
+| `5` | লেখা ব্যর্থ (disk full, I/O error, লেখার সময় ফাইল বদলে গেছে) |
+| `6` | Terminal নেই বা TUI চালু করা যায়নি |

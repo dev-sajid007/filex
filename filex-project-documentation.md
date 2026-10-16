@@ -799,7 +799,7 @@ Semantic Versioning অনুসরণ করার প্রস্তাব:
 
 ### M0 --- Foundation
 
--   [ ] Package name নির্বাচন
+-   [x] Package name নির্বাচন (`filex-editor`; command `filex`)
 -   [x] Bun ও OpenTUI React template bootstrap
 -   [x] Project scripts ও TypeScript setup
 -   [x] Initial app render
@@ -838,11 +838,11 @@ Semantic Versioning অনুসরণ করার প্রস্তাব:
 
 ### M5 --- CLI
 
--   [ ] Command parser
--   [ ] Read/create/append/insert/replace
--   [ ] Help/version
--   [ ] Exit code tests
--   [ ] Non-TTY behavior
+-   [x] Command parser
+-   [x] Read/create/append/insert/replace
+-   [x] Help/version
+-   [x] Exit code tests
+-   [x] Non-TTY behavior
 
 ### M6 --- Unicode ও quality
 
@@ -854,10 +854,10 @@ Semantic Versioning অনুসরণ করার প্রস্তাব:
 
 ### M7 --- Release
 
--   [ ] README ও license
+-   [x] README ও license
 -   [ ] CI checks
--   [ ] Package dry run
--   [ ] npm name/metadata validation
+-   [x] Package dry run
+-   [x] npm name/metadata validation
 -   [ ] npm publish
 -   [ ] Installation test
 

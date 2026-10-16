@@ -1,18 +1,47 @@
 {
-  "name": "filex",
-  "version": "0.0.1",
-  "description": "A Bangla-first terminal file editor",
-  "module": "src/index.tsx",
-  "type": "module",
-  "private": true,
-  "bin": {
-    "filex": "src/index.tsx"
+  "name": "filex-editor",
+  "version": "0.1.1",
+  "description": "A Bangla-first terminal text editor with atomic saves and grapheme-correct editing",
+  "keywords": [
+    "editor",
+    "text-editor",
+    "terminal",
+    "tui",
+    "cli",
+    "bangla",
+    "bengali",
+    "unicode",
+    "bun",
+    "opentui"
+  ],
+  "homepage": "https://github.com/dev-sajid007/filex#readme",
+  "bugs": {
+    "url": "https://github.com/dev-sajid007/filex/issues"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dev-sajid007/filex.git"
+  },
+  "license": "MIT",
+  "author": "dev-sajid007 (https://github.com/dev-sajid007)",
+  "type": "module",
+  "bin": {
+    "filex": "dist/filex.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "README.bn.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "bun run --watch src/index.tsx",
     "start": "bun run src/index.tsx",
+    "build": "rm -rf dist && bun build src/index.tsx --target bun --outfile dist/filex.js --packages external",
     "test": "bun test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "bun run typecheck && bun test && bun run build"
   },
   "devDependencies": {
     "@types/bun": "1.3.14",
@@ -25,6 +54,6 @@
     "react": "19.3.1"
   },
   "engines": {
-    "bun": ">=1.3.0"
+    "bun": ">=1.3.14"
   }
 }

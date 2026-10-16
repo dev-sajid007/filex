@@ -17,6 +17,43 @@ export const en: Messages = {
   unknownOption: "Unknown option",
   tooManyPaths: "More than one path given",
   usage: "Usage: filex [--lang bn|en] [path]",
+  missingArgs: "Missing arguments",
+  tooManyArgs: "Too many arguments",
+  emptySearch: "Search text cannot be empty",
+  lineRange: "Line number must be between 1 and {max}",
+  fileExists: "File already exists (use --force to overwrite)",
+  fileNotFound: "File not found",
+  createHint: "Hint: check the path or use `filex create {path}`.",
+  created: "Created: {path}",
+  appended: "Appended: {path}",
+  inserted: "Inserted at line {line}: {path}",
+  replacedIn: "Replaced {n}: {path}",
+  dryRun: "{n} matches; nothing written (--dry-run)",
+  matchLines: "Lines: {lines}",
+  noTty: "The interactive editor needs a terminal.",
+  noTtyHint: "To print a file: filex read <path> · Help: filex --help",
+  cliHelp: `FileX — a Bangla-first terminal file editor
+
+Usage:
+  filex [options] [path]             Open the editor (new file if path is missing)
+  filex edit <path>                  Same as above
+  filex read <path>                  Print the file to stdout
+  filex create <path> [--force]      Create an empty file
+  filex append <path> <text>         Add a line at the end
+  filex insert <path> <line> <text>  Insert a line at a 1-based line number
+  filex replace <path> <old> <new> [--dry-run]
+                                     Replace every occurrence
+
+Options:
+  --lang bn|en     UI language (or the FILEX_LANG environment variable)
+  -h, --help       Show this help
+  -v, --version    Show the version
+  --               Treat everything after as paths/text
+
+Press F1 inside the editor for all keyboard shortcuts.
+
+Exit codes: 0 ok · 1 no matches · 2 bad arguments · 3 file/path error
+            4 permission denied · 5 write failed · 6 no terminal`,
 
   saving: "Saving…",
   saved: "Saved",

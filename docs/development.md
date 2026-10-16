@@ -67,8 +67,31 @@ Test-গুলো `tests/`-এ, Bun-এর test runner দিয়ে চলে
 - `Ctrl+Q`-এর পর terminal স্বাভাবিক অবস্থায় ফেরে কি না
 - SSH session (সম্ভব হলে)
 
-## Release
+## Build ও release
 
-Publishing checklist ও versioning নীতি:
-[filex-project-documentation.md](../filex-project-documentation.md) §17–18।
-প্রকাশের আগে package name ঠিক করতে হবে — `filex` npm-এ নেওয়া।
+npm package-এর নাম `filex-editor` (`filex` নামটি npm-এ আগে থেকেই নেওয়া); install করা
+command `filex`।
+
+```bash
+bun run build        # dist/filex.js — একটি bundle, dependency external
+npm pack --dry-run   # কী প্রকাশ হবে দেখুন: dist/, README, CHANGELOG, LICENSE
+```
+
+- Package source নয়, bundle প্রকাশ করে: `node_modules`-এর ভেতরে Bun আমাদের
+  `tsconfig`-এর JSX setting পায় না, তাই raw `.tsx` চলত না।
+- `@opentui/*` ও `react` bundle-এর বাইরে থাকে — OpenTUI-এর native binary
+  platform-ভিত্তিক optional dependency হিসেবে install হয়।
+- Runtime Bun (`engines.bun >=1.3.14`, OpenTUI-এর প্রয়োজন অনুযায়ী)। OpenTUI-এর
+  Node build-এর জন্য Node ≥ 26.4 লাগে এবং FileX `Bun.stringWidth` ব্যবহার করে, তাই
+  Node সমর্থন পরে।
+
+### Publish
+
+```bash
+npm login
+npm publish          # prepublishOnly: typecheck → test → build
+```
+
+প্রকাশের পর: `bun add -g filex-editor` দিয়ে install করে `filex --version` ও একটি ফাইল
+খুলে দেখুন। প্রতিটি release-এর আগে `package.json`-এর `version` ও `CHANGELOG.md` update
+করুন; versioning নীতি: [specification](../filex-project-documentation.md) §18।

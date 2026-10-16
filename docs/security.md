@@ -98,5 +98,5 @@ Save ব্যর্থ হলে editor-এর content কখনও নষ্�
 
 ## Security সমস্যা জানানো
 
-সমস্যা পেলে public issue খোলার আগে maintainer-এর সঙ্গে ব্যক্তিগতভাবে যোগাযোগ
-করুন। (যোগাযোগের মাধ্যম repository প্রকাশের সময় যোগ হবে।)
+Public issue খুলবেন না — [SECURITY.md](../SECURITY.md)-এ দেওয়া GitHub-এর private
+vulnerability reporting ব্যবহার করুন।
