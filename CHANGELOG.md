@@ -29,6 +29,10 @@
 - অসংরক্ষিত পরিবর্তন থাকলে `Ctrl+Q`/`Ctrl+O`-এর আগে y/n/Esc prompt।
 - Directory, binary, invalid UTF-8, 16 MB-এর বড় ও অনুমতিহীন ফাইলে localized
   error; CLI-তে exit code `3`/`4`। অজানা option-এ exit `2`।
+- Productivity (M4): undo/redo (`Ctrl+Z`/`Ctrl+Y`) টানা typing group-সহ;
+  Shift দিয়ে selection, `Ctrl+A`; `Ctrl+C`/`Ctrl+X`/`Ctrl+V` (OSC 52)।
+- Incremental search (`Ctrl+F`), interactive ও replace-all (`Ctrl+R`), লাইনে
+  যাওয়া (`Ctrl+G`, বাংলা অঙ্কসহ), `F1` shortcut তালিকা।
 
 ### Specification থেকে পরিবর্তন
 
@@ -37,6 +41,7 @@
 - Replace shortcut `Ctrl+H` থেকে `Ctrl+R` — terminal `Ctrl+H`-কে Backspace
   হিসেবে পাঠায়।
 - `Ctrl+Y` redo যোগ — legacy terminal-এ `Ctrl+Shift+Z` আলাদা করা যায় না।
+- `Ctrl+C`/`Ctrl+X`/`Ctrl+V` ও `F1` যোগ (spec-এ ছিল না)।
 
 ### পরিচিত সীমাবদ্ধতা
 

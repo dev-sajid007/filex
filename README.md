@@ -4,8 +4,8 @@ FileX হলো টার্মিনালের ভেতরে ফাইল �
 বাংলা-প্রথম editor। এটি [Bun](https://bun.sh), TypeScript এবং
 [OpenTUI](https://github.com/anomalyco/opentui) + React দিয়ে তৈরি।
 
-> **অবস্থা:** প্রাথমিক development (`0.0.1`)। ফাইল খোলা, সম্পাদনা ও নিরাপদ
-> save চলে; search/replace ও undo/redo এখনও বাকি। বিস্তারিত: [Roadmap](#roadmap)।
+> **অবস্থা:** প্রাথমিক development (`0.0.1`)। ফাইল খোলা, সম্পাদনা, নিরাপদ
+> save, search/replace ও undo/redo চলে; subcommand (M5) বাকি। বিস্তারিত: [Roadmap](#roadmap)।
 
 ## বর্তমানে যা কাজ করে
 
@@ -15,6 +15,10 @@ FileX হলো টার্মিনালের ভেতরে ফাইল �
   বাইরে থেকে ফাইল বদলালে overwrite-এর আগে সতর্কতা
 - প্রথম save-এর আগে মূল ফাইলের backup (`~/.local/state/filex/backups/`)
 - অসংরক্ষিত পরিবর্তন থাকলে `Ctrl+Q`/`Ctrl+O`-এর আগে জিজ্ঞাসা
+- Undo/redo (টানা typing এক ধাপে), Shift দিয়ে selection, copy/cut/paste
+  (OSC 52-সমর্থিত terminal-এ system clipboard-এও)
+- Incremental search, এক এক করে বা সব একসঙ্গে replace, লাইনে যাওয়া
+  (বাংলা অঙ্কও চলে), `F1`-এ shortcut তালিকা
 - বাংলা (default) ও ইংরেজি UI — `--lang bn` / `--lang en`
 - Header, line number-সহ editor viewport ও status bar
 - লেখা, Enter, Tab, Backspace/Delete এবং bracketed paste
@@ -48,9 +52,12 @@ Prerequisite: Bun `>=1.3.0`, এবং বাংলা font-সহ একটি 
 | `Esc` | বাতিল / বার্তা মুছুন | ✅ |
 | `Ctrl+S` | সংরক্ষণ | ✅ |
 | `Ctrl+O` | ফাইল খুলুন | ✅ |
-| `Ctrl+F` | খুঁজুন | পরিকল্পিত |
-| `Ctrl+R` | প্রতিস্থাপন | পরিকল্পিত |
-| `Ctrl+Z` / `Ctrl+Y` | Undo / Redo | পরিকল্পিত |
+| `Ctrl+F` | খুঁজুন | ✅ |
+| `Ctrl+R` | প্রতিস্থাপন | ✅ |
+| `Ctrl+G` | লাইনে যান | ✅ |
+| `Ctrl+Z` / `Ctrl+Y` | Undo / Redo | ✅ |
+| `Ctrl+C` / `Ctrl+X` / `Ctrl+V` | Copy / Cut / Paste | ✅ |
+| `F1` | সব shortcut | ✅ |
 
 পূর্ণ তালিকা ও terminal-সংক্রান্ত সীমাবদ্ধতা:
 [docs/keyboard-shortcuts.md](docs/keyboard-shortcuts.md)।
@@ -74,7 +81,7 @@ Prerequisite: Bun `>=1.3.0`, এবং বাংলা font-সহ একটি 
 | M1 | TUI shell | ✅ |
 | M2 | Basic editing | ✅ |
 | M3 | File operations | ✅ |
-| M4 | Search/replace, undo/redo | — |
+| M4 | Search/replace, undo/redo | ✅ |
 | M5 | CLI commands | — |
 | M6 | Unicode ও quality | — |
 | M7 | Release | — |

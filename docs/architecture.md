@@ -14,7 +14,7 @@
 | --- | --- | --- |
 | CLI | Argument parse, locale নির্বাচন, exit code | আংশিক — শুধু `--lang` |
 | TUI | OpenTUI rendering, keyboard input, dialog ও status | Shell ✅ |
-| Editor core | Buffer, cursor, dirty state ✅; selection, undo/redo, search | আংশিক — M4 বাকি |
+| Editor core | Buffer, cursor, selection, undo/redo, dirty state, search/replace | ✅ |
 | File engine | Path validation, read/write, atomic save, backup | ✅ |
 | Localization | বাংলা/ইংরেজি message; message-এর একক source | ✅ |
 
@@ -28,11 +28,15 @@ src/
 ├── components/
 │   ├── Header.tsx         # File path, নতুন/শুধু-পঠনযোগ্য tag, modified marker
 │   ├── EditorViewport.tsx # Line number, visible rows, cursor
-│   ├── PromptBar.tsx      # Path input ও y/n confirmation
+│   ├── PromptBar.tsx      # Input (path, search, line) ও y/n confirmation
+│   ├── HelpView.tsx       # F1 shortcut তালিকা
+│   ├── Segments.tsx       # Cursor/selection/match span rendering
 │   └── StatusBar.tsx      # Shortcut hint, বার্তা, line/column
 ├── core/
 │   ├── keymap.ts          # KeyEvent → CommandId
 │   ├── prompt.ts          # Prompt state ও key → action
+│   ├── search.ts          # Match খোঁজা, next/prev, replace
+│   ├── undo-manager.ts    # Snapshot history ও typing grouping
 │   ├── file-engine.ts     # Load (validation, encoding), safe save, backup
 │   ├── errors.ts          # FileError ও errno mapping
 │   ├── editor-buffer.ts   # Immutable buffer state ও edit/move operation
@@ -144,6 +148,24 @@ render-এর আগে একসঙ্গে অনেক key এলেও (দ
 - Viewport `layoutRow()` দিয়ে প্রতিটি line থেকে cell window কেটে নেয়; কোনো
   wide character window-এর কিনারায় পড়লে তার জায়গায় space বসে, যাতে row
   কখনও নির্ধারিত width ছাড়ায় না।
+
+### Selection ও undo
+
+`EditorState.anchor` selection-এর অন্য প্রান্ত (null = selection নেই)। Shift-সহ
+movement anchor রাখে, Shift ছাড়া মুছে দেয়। সব edit একটি function দিয়ে হয় —
+`replaceRange()` — তাই selection থাকলে typing, Backspace ও Delete সেটিকেই
+বদলায়।
+
+State immutable হওয়ায় undo history শুধু আগের `{ lines, cursor, anchor }`
+snapshot রাখে; line array-এর অপরিবর্তিত অংশ ভাগাভাগি হয়। `savedText` snapshot-এ
+থাকে না, তাই undo "saved" অবস্থা পেছায় না। `applyEditorKey()` প্রতিটি edit-এর
+ধরন (`insert` / `delete` / `other` / `move`) জানায়, যা দিয়ে grouping হয়।
+
+### Viewport rendering
+
+`layoutRow()` একটি line-কে `Segment[]`-এ ভাগ করে (`text` / `match` /
+`selection` / `cursor`), প্রাধান্য: cursor > selection > match। কোনো mark
+grapheme-এর অংশ ছুঁলে পুরো grapheme highlight হয়।
 
 ### Input
 

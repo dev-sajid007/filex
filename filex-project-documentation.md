@@ -487,6 +487,8 @@ capability পরীক্ষা করা যেতে পারে, কিন�
   `Ctrl+Shift+Z`          Redo (শুধু kitty keyboard protocol সমর্থিত terminal-এ)
   `Ctrl+A`                Select all
   `Ctrl+G`                Go to line
+  `Ctrl+C` / `Ctrl+X` / `Ctrl+V`  Copy / Cut / Paste (spec-এ ছিল না; selection-এর জন্য যোগ)
+  `F1`                    Shortcut help
   `Ctrl+Q`                Quit
   `Esc`                   Dialog বন্ধ/বাতিল
   Arrow keys              Cursor movement
@@ -828,11 +830,11 @@ Semantic Versioning অনুসরণ করার প্রস্তাব:
 
 ### M4 --- Productivity
 
--   [ ] Search/replace
--   [ ] Undo/redo
--   [ ] Go to line
--   [ ] Selection
--   [ ] Keyboard shortcut help
+-   [x] Search/replace
+-   [x] Undo/redo
+-   [x] Go to line
+-   [x] Selection
+-   [x] Keyboard shortcut help
 
 ### M5 --- CLI
 
